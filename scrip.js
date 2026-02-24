@@ -155,14 +155,20 @@ mainContainer.addEventListener('click', function (event) {
         calculateCount();
     }
 });
-
 function updateStatusInAllCards(company, status) {
     const cards = allCardSection.querySelectorAll('.card');
+    
     cards.forEach(card => {
         if (card.querySelector('.company').innerText === company) {
-            const btn = card.querySelector('.applyBtn');
-            btn.innerText = status;
-            btn.className = `applyBtn rounded font-medium text-[14px] px-3 py-2 ${status === 'INTERVIEW' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`;
+            const interviewBadge = card.querySelector('.interview-badge');
+            const rejectedBadge = card.querySelector('.rejected-badge');
+            if(interviewBadge) interviewBadge.classList.add('hidden');
+            if(rejectedBadge) rejectedBadge.classList.add('hidden');
+            if (status === 'INTERVIEW' && interviewBadge) {
+                interviewBadge.classList.remove('hidden');
+            } else if (status === 'REJECTED' && rejectedBadge) {
+                rejectedBadge.classList.remove('hidden');
+            }
         }
     });
 }
@@ -172,7 +178,7 @@ function rendering() {
     if (interviewList.length === 0) {
         filterSection.innerHTML = `
         <div class="text-center py-16">
-            <i class="fa-solid fa-briefcase text-5xl text-gray-300 mb-4"></i>
+            <img src="./jobs.png" alt="" class="mx-auto block mb-4 w-32>
             <h2 class="text-xl font-semibold text-[#002C5C]">No Jobs Available</h2>
             <p class="text-gray-500">You haven't marked any job as Interview yet.</p>
         </div>`;
@@ -206,7 +212,7 @@ function rendering2() {
     if (rejectedList.length === 0) {
         filterSection.innerHTML = `
         <div class="text-center py-16">
-            <i class="fa-solid fa-briefcase text-5xl text-gray-300 mb-4"></i>
+            <img src="./jobs.png" alt="" class="mx-auto block mb-4 w-32>
             <h2 class="text-xl font-semibold text-[#002C5C]">No Jobs Available</h2>
             <p class="text-gray-500">You haven't rejected any job yet.</p>
         </div>`;
